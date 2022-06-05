@@ -1,7 +1,6 @@
-﻿namespace Ikea.Assignment.Azure.Function.App
+﻿namespace Ikea.Assignment.AzureFunction.HttpTrigger
 {
     using System;
-    using System.IO;
     using System.Net;
     using System.Threading.Tasks;
     using IkeaAssignmentCore.Application;
@@ -14,19 +13,22 @@
     using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
 
-    public static class IkeaAssignmentAzureFunctionApp
+    public static class HttpTriggerIkeaAssignment
     {
         [FunctionName("HttpTriggerIkeaAssignment")]
-        public static async Task<IActionResult> HttpTriggerIkeaAssignment(
+        public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
-            try {
+            try
+            {
                 var service = new PhotoService(new HttpClientHandler(), new PhotoRepository());
                 var photo = await service.GetPhotoAsync();
 
-                var statictics = await service.GetPhotoStatisticsAsync(photo, string.Empty);
+                var statictics = await service.GetPhotoStatisticsAsync(photo, "10");
                 await service.SavePhotoAsync(statictics);
+
+                log.LogInformation($"Statictics: {JsonConvert.SerializeObject(statictics)}");
 
                 return new FileContentResult(GetBytesFromImageURL(photo.Url.ToString()), "image/jpeg");
             }
@@ -34,30 +36,6 @@
             {
                 log.LogError(e.Message);
                 return new OkObjectResult(e.Message);
-            }
-        }
-
-        [FunctionName("TimerTriggerIkeaAssignment")]
-        public static async void TimerTriggerIkeaAssignment(
-            [TimerTrigger("0 30 9 * * *")] TimerInfo timer,
-            ILogger log)
-        {
-            try
-            {
-                if (timer.IsPastDue)
-                {
-                    log.LogInformation($"Timer trigger function executed at: {DateTime.Now}");
-
-                    var service = new PhotoService(new HttpClientHandler(), new PhotoRepository());
-                    var photo = await service.GetPhotoAsync();
-
-                    var statictics = await service.GetPhotoStatisticsAsync(photo, string.Empty);
-                    await service.SavePhotoAsync(statictics);
-                }
-            }
-            catch (Exception e)
-            {
-                log.LogError(e.Message);
             }
         }
 
