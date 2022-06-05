@@ -14,24 +14,21 @@
     {
         [FunctionName("TimerTriggerIkeaAssignment")]
         public static async Task Run(
-            [TimerTrigger("0 * * * * *")] TimerInfo timer,
+            [TimerTrigger("0 0 0 * * *")] TimerInfo timer,
             ILogger log)
         {
             try
             {
-                if (timer.IsPastDue)
-                {
-                    log.LogInformation($"Timer trigger function executed at: {DateTime.Now}");
+                log.LogInformation($"Timer trigger function executed at: {DateTime.Now}");
 
-                    var service = new PhotoService(new HttpClientHandler(), new PhotoRepository());
-                    var photo = await service.GetPhotoAsync();
+                var service = new PhotoService(new HttpClientHandler(), new PhotoRepository());
+                var photo = await service.GetPhotoAsync();
 
-                    var statictics = await service.GetPhotoStatisticsAsync(photo, string.Empty);
-                    await service.SavePhotoAsync(statictics);
+                var statictics = await service.GetPhotoStatisticsAsync(photo, string.Empty);
+                await service.SavePhotoAsync(statictics);
 
-                    log.LogInformation($"Statictics: {JsonConvert.SerializeObject(statictics)}");
-                    log.LogInformation($"Timer trigger function completed execution at: {DateTime.Now}");
-                }
+                log.LogInformation($"Statictics: {JsonConvert.SerializeObject(statictics)}");
+                log.LogInformation($"Timer trigger function completed execution at: {DateTime.Now}");
             }
             catch (Exception e)
             {
