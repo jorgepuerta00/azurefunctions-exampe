@@ -1,6 +1,7 @@
 ﻿namespace Ikea.Assignment.AzureFunction.HttpTrigger
 {
     using System;
+    using System.IO;
     using System.Net;
     using System.Threading.Tasks;
     using IkeaAssignmentCore.Application;
@@ -22,13 +23,16 @@
         {
             try
             {
+                string param = req.Query["days"];
+                string days = param ?? "30";
+
                 var service = new PhotoService(new HttpClientHandler(), new PhotoRepository());
                 var photo = await service.GetPhotoAsync();
 
-                var statictics = await service.GetPhotoStatisticsAsync(photo, "10");
+                var statictics = await service.GetPhotoStatisticsAsync(photo, days);
                 await service.SavePhotoAsync(statictics);
 
-                log.LogInformation($"Statictics: {JsonConvert.SerializeObject(statictics)}");
+                log.LogInformation($"Statictics past {days} days: {JsonConvert.SerializeObject(statictics)}");
 
                 return new FileContentResult(GetBytesFromImageURL(photo.Url.ToString()), "image/jpeg");
             }
