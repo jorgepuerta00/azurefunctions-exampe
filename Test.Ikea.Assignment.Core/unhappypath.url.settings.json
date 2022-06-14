@@ -1,0 +1,10 @@
+﻿{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet"
+  },
+  "UnsplashUrl": "http://localhost:3000/api",
+  "UnsplashUrlStatistics": "https://api.unsplash.com/photos/:id/statistics/?client_id=QBb9uhT5sZNYuRtq3oujMfPRENpZfCf-xUMQ3yK9UlE",
+  "StorageConnectionString": "DefaultEndpointsProtocol=https;AccountName=ikeaassignmentstorage;AccountKey=r2vXOcSFVtw9/ioF1B6Mt5rLZjwHzZ1YTKWRo4p6BLSwOkIUhZGAOYqasBvOI888PPu4DD6hxezO+AStaBZhqQ==;EndpointSuffix=core.windows.net"
+}

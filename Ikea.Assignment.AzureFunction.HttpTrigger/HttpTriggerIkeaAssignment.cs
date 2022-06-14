@@ -4,6 +4,7 @@
     using System.IO;
     using System.Net;
     using System.Threading.Tasks;
+    using IkeaAssignmentCore;
     using IkeaAssignmentCore.Application;
     using IkeaAssignmentCore.Application.Common.HttpClientHandler;
     using IkeaAssignmentCore.Infraestructure.Persistance;
@@ -26,7 +27,7 @@
                 string param = req.Query["days"];
                 string days = param ?? "30";
 
-                var service = new PhotoService(new HttpClientHandler(), new PhotoRepository());
+                var service = new PhotoService(new HttpClientHandler(), new PhotoRepository(), new AppConfiguration());
                 var photo = await service.GetPhotoAsync();
 
                 var statictics = await service.GetPhotoStatisticsAsync(photo, days);

@@ -5,14 +5,27 @@
 
     public class AppConfiguration
     {
-        private readonly string _StorageConnectionString = string.Empty;
-        private readonly string _UnsplashUrl = string.Empty;
-        private readonly string _UnsplashUrlStatistics = string.Empty;
+        private string _StorageConnectionString = string.Empty;
+        private string _UnsplashUrl = string.Empty;
+        private string _UnsplashUrlStatistics = string.Empty;
+        private readonly string _FileName;
+
+        public AppConfiguration(string filename)
+        {
+            _FileName = filename;
+            BuildConfiguration();
+        }
 
         public AppConfiguration()
         {
+            _FileName = "local.settings.json";
+            BuildConfiguration();
+        }
+
+        private void BuildConfiguration()
+        {
             var configurationBuilder = new ConfigurationBuilder();
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "local.settings.json");
+            var path = Path.Combine(Directory.GetCurrentDirectory(), _FileName);
             configurationBuilder.AddJsonFile(path, false);
 
             var root = configurationBuilder.Build();
@@ -22,19 +35,19 @@
             _UnsplashUrlStatistics = root.GetSection("UnsplashUrlStatistics").Value;
         }
 
-        public string StorageConnectionString
+        public string StorageConnectionString()
         {
-            get => _StorageConnectionString;
+            return _StorageConnectionString;
         }
 
-        public string UnsplashUrl
+        public string UnsplashUrl()
         {
-            get => _UnsplashUrl;
+            return _UnsplashUrl;
         }
 
-        public string UnsplashUrlStatistics
+        public string UnsplashUrlStatistics()
         {
-            get => _UnsplashUrlStatistics;
+            return _UnsplashUrlStatistics;
         }
     }
 }

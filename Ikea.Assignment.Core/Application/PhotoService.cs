@@ -15,18 +15,18 @@
         private readonly IPhotoRepository _photoRepository;
         private readonly AppConfiguration _configuration;
 
-        public PhotoService(IHttpHandler client, IPhotoRepository photoRepository)
+        public PhotoService(IHttpHandler client, IPhotoRepository photoRepository, AppConfiguration configuration)
         {
             _client = client;
             _photoRepository = photoRepository;
-            _configuration = new AppConfiguration();
+            _configuration = configuration;
         }
 
         public async Task<Photo> GetPhotoAsync()
         {
-            _configuration.UnsplashUrl.ThrowIfArgumentIsNull("Unsplash Url is null");
+            _configuration.UnsplashUrl().ThrowIfArgumentIsNull("Unsplash Url is null");
 
-            var response = await _client.GetStringAsync(_configuration.UnsplashUrl);
+            var response = await _client.GetStringAsync(_configuration.UnsplashUrl());
             Photo photo = JsonConvert.DeserializeObject<Photo>(response);
 
             return photo;
@@ -35,9 +35,9 @@
         public async Task<PhotoModel> GetPhotoStatisticsAsync(Photo photo, string days)
         {
             photo.ThrowIfArgumentIsNull("photoModel is null");
-            _configuration.UnsplashUrlStatistics.ThrowIfArgumentIsNull("Unsplash Url Statistics is null");
+            _configuration.UnsplashUrlStatistics().ThrowIfArgumentIsNull("Unsplash Url Statistics is null");
 
-            var url = _configuration.UnsplashUrlStatistics.Replace(":id", photo.Id);
+            var url = _configuration.UnsplashUrlStatistics().Replace(":id", photo.Id);
 
             url = url.ConcatUrl(days);
 

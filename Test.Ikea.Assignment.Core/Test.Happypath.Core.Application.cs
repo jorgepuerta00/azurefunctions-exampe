@@ -2,6 +2,7 @@
 {
     using System;
     using System.Threading.Tasks;
+    using IkeaAssignmentCore;
     using IkeaAssignmentCore.Application;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Test.Ikea.Assignment.Core.Repositories;
@@ -13,7 +14,7 @@
         public async Task TestGetPhoto()
         {
             // Arrange
-            PhotoService service = new PhotoService(new MockHttpClientHandler(), new MockPhotoRepository());
+            PhotoService service = new PhotoService(new MockHttpClientHandler(), new MockPhotoRepository(), new AppConfiguration());
 
             // Act
             var photo = await service.GetPhotoAsync();
@@ -26,7 +27,7 @@
         public async Task TestGetPhotoStatisticsChangeDefaultDays()
         {
             // Arrange
-            PhotoService service = new PhotoService(new MockHttpClientHandler(), new MockPhotoRepository());
+            PhotoService service = new PhotoService(new MockHttpClientHandler(), new MockPhotoRepository(), new AppConfiguration());
 
             // Act
             var photo = await service.GetPhotoAsync();
@@ -40,7 +41,7 @@
         public async Task TestGetPhotoStatisticsPercentageDefaultDays()
         {
             // Arrange
-            PhotoService service = new PhotoService(new MockHttpClientHandler(), new MockPhotoRepository());
+            PhotoService service = new PhotoService(new MockHttpClientHandler(), new MockPhotoRepository(), new AppConfiguration());
 
             // Act
             var photo = await service.GetPhotoAsync();
@@ -54,7 +55,7 @@
         public async Task TestGetPhotoStatisticsChangeTenDays()
         {
             // Arrange
-            PhotoService service = new PhotoService(new MockHttpClientHandler(), new MockPhotoRepository());
+            PhotoService service = new PhotoService(new MockHttpClientHandler(), new MockPhotoRepository(), new AppConfiguration());
 
             // Act
             var photo = await service.GetPhotoAsync();
@@ -68,7 +69,7 @@
         public async Task TestGetPhotoStatisticsPercentageTenDays()
         {
             // Arrange
-            PhotoService service = new PhotoService(new MockHttpClientHandler(), new MockPhotoRepository());
+            PhotoService service = new PhotoService(new MockHttpClientHandler(), new MockPhotoRepository(), new AppConfiguration());
 
             // Act
             var photo = await service.GetPhotoAsync();
@@ -82,7 +83,7 @@
         public async Task TestSavePhoto()
         {
             // Arrange
-            PhotoService service = new PhotoService(new MockHttpClientHandler(), new MockPhotoRepository());
+            PhotoService service = new PhotoService(new MockHttpClientHandler(), new MockPhotoRepository(), new AppConfiguration());
 
             // Act
             var photo = await service.GetPhotoAsync();

@@ -3,6 +3,7 @@
     using System;
     using System.Net;
     using System.Threading.Tasks;
+    using IkeaAssignmentCore;
     using IkeaAssignmentCore.Application;
     using IkeaAssignmentCore.Application.Common.HttpClientHandler;
     using IkeaAssignmentCore.Infraestructure.Persistance;
@@ -21,7 +22,7 @@
             {
                 log.LogInformation($"Timer trigger function executed at: {DateTime.Now}");
 
-                var service = new PhotoService(new HttpClientHandler(), new PhotoRepository());
+                var service = new PhotoService(new HttpClientHandler(), new PhotoRepository(), new AppConfiguration());
                 var photo = await service.GetPhotoAsync();
 
                 var statictics = await service.GetPhotoStatisticsAsync(photo, string.Empty);

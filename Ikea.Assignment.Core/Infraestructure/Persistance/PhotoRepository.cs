@@ -23,7 +23,7 @@
             {
                 photoModel.ThrowIfArgumentIsNull("photoModel is null");
 
-                CloudTable table = _tableService.GetTableReference("photo", true);
+                CloudTable table = _tableService.GetTableReference("photo");
                 var entity = new PhotoEntity(photoModel);
 
                 await _tableService.AddObject(table, entity);
