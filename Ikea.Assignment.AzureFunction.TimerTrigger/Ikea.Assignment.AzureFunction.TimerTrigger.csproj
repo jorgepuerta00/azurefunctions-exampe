@@ -5,6 +5,10 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.3" />
+    <PackageReference Include="Azurite" Version="2.6.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Azurite" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">

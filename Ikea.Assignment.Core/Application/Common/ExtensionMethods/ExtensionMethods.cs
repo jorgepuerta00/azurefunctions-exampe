@@ -11,5 +11,10 @@
                 throw new ArgumentNullException(argument);
             }
         }
+
+        public static string ConcatUrl(this string url, string param) 
+        {
+            return string.IsNullOrEmpty(param) ? url : string.Concat(url, "&quantity=" + param);
+        }
     }
 }

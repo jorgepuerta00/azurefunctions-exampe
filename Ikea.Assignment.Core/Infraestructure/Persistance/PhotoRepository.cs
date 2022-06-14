@@ -17,26 +17,6 @@
             _tableService = new TableService();
         }
 
-        public PhotoModel Mapper(Photo photo)
-        {
-            var userModel = new UserModel()
-            {
-                Id = photo.User.Id,
-                Name = photo.User.Name
-            };
-
-            var photoModel = new PhotoModel()
-            {
-                Id = photo.Id,
-                Width = photo.Width,
-                Height = photo.Height,
-                User = userModel,
-                Url = photo.Urls.SmallS3
-            };
-
-            return photoModel;
-        }
-
         public async Task<bool> Save(PhotoModel photoModel)
         {
             try

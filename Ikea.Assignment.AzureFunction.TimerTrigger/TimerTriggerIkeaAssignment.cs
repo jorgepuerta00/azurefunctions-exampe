@@ -14,7 +14,7 @@
     {
         [FunctionName("TimerTriggerIkeaAssignment")]
         public static async Task Run(
-            [TimerTrigger("0 0 0 * * *")] TimerInfo timer,
+            [TimerTrigger("0 * * * * *")] TimerInfo timer,
             ILogger log)
         {
             try
@@ -46,3 +46,9 @@
         }
     }
 }
+
+
+
+
+
+            

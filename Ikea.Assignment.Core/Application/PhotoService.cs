@@ -22,41 +22,29 @@
             _configuration = new AppConfiguration();
         }
 
-        public async Task<PhotoModel> GetPhotoAsync()
+        public async Task<Photo> GetPhotoAsync()
         {
             _configuration.UnsplashUrl.ThrowIfArgumentIsNull("Unsplash Url is null");
 
             var response = await _client.GetStringAsync(_configuration.UnsplashUrl);
             Photo photo = JsonConvert.DeserializeObject<Photo>(response);
 
-            var photoModel = _photoRepository.Mapper(photo);
-
-            return photoModel;
+            return photo;
         }
 
-        public async Task<PhotoModel> GetPhotoStatisticsAsync(PhotoModel photoModel, string days)
+        public async Task<PhotoModel> GetPhotoStatisticsAsync(Photo photo, string days)
         {
-            photoModel.ThrowIfArgumentIsNull("photoModel is null");
+            photo.ThrowIfArgumentIsNull("photoModel is null");
             _configuration.UnsplashUrlStatistics.ThrowIfArgumentIsNull("Unsplash Url Statistics is null");
 
-            var url = _configuration.UnsplashUrlStatistics.Replace(":id", photoModel.Id);
+            var url = _configuration.UnsplashUrlStatistics.Replace(":id", photo.Id);
 
-            url = string.IsNullOrEmpty(days) ? url : string.Concat(url, "&quantity=" + days);
+            url = url.ConcatUrl(days);
 
             var response = await _client.GetStringAsync(url);
-            PhotoStatistics photo = JsonConvert.DeserializeObject<PhotoStatistics>(response);
+            PhotoStatistics photoStatictis = JsonConvert.DeserializeObject<PhotoStatistics>(response);
 
-            var totalDownloads = photo.Downloads.Total;
-            var PastDaysDownloads = photo.Downloads.Historical.Change;
-            var PercentagePastDaysDownloads = PastDaysDownloads * 100 / totalDownloads;
-
-            var newPhotoModel = photoModel;
-
-            newPhotoModel.TotalDownloads = totalDownloads;
-            newPhotoModel.PastDaysDownloads = PastDaysDownloads;
-            newPhotoModel.PercentagePastDaysDownloads = Convert.ToDecimal(PercentagePastDaysDownloads.ToString("0.##"));
-
-            return newPhotoModel;
+            return new PhotoModel(photo, photoStatictis);
         }
 
         public async Task<bool> SavePhotoAsync(PhotoModel photoModel)

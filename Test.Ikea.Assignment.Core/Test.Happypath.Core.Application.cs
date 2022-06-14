@@ -1,12 +1,13 @@
 ﻿namespace Test.Ikea.Assignment.Core
 {
+    using System;
     using System.Threading.Tasks;
     using IkeaAssignmentCore.Application;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Test.Ikea.Assignment.Core.Repositories;
 
     [TestClass]
-    public class UnitTestCore
+    public class HappypathUnitTestCore
     {
         [TestMethod]
         public async Task TestGetPhoto()
@@ -46,7 +47,7 @@
             var statictics = await service.GetPhotoStatisticsAsync(photo, string.Empty);
 
             // Assert
-            Assert.AreEqual(statictics.PercentagePastDaysDownloads, 99);
+            Assert.AreEqual(Math.Round(statictics.PercentagePastDaysDownloads), 100);
         }
 
         [TestMethod]
@@ -74,7 +75,7 @@
             var statictics = await service.GetPhotoStatisticsAsync(photo, "10");
 
             // Assert
-            Assert.AreEqual(statictics.PercentagePastDaysDownloads, 39);
+            Assert.AreEqual(Math.Round(statictics.PercentagePastDaysDownloads), 39);
         }
 
         [TestMethod]

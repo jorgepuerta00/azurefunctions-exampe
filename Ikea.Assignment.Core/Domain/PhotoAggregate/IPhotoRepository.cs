@@ -6,7 +6,6 @@
 
     public interface IPhotoRepository
     {
-        PhotoModel Mapper(Photo photo);
         Task<bool> Save(PhotoModel photoModel);
     }
 }

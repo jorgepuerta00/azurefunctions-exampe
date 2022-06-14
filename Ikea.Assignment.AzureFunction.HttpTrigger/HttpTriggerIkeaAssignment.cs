@@ -34,7 +34,7 @@
 
                 log.LogInformation($"Statictics past {days} days: {JsonConvert.SerializeObject(statictics)}");
 
-                return new FileContentResult(GetBytesFromImageURL(photo.Url.ToString()), "image/jpeg");
+                return new FileContentResult(GetBytesFromImageURL(photo.Urls.SmallS3.ToString()), "image/jpeg");
             }
             catch (Exception e)
             {
